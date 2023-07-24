@@ -9,6 +9,9 @@ module.exports = {
         "plugin:react/recommended",
         "airbnb-base"
     ],
+    "rules": {
+      "no-underscore-dangle": ["error", { "allow": ["_id"] }]
+    },
     "overrides": [
         {
             "env": {

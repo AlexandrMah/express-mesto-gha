@@ -63,9 +63,8 @@ const changeProfile = async (req, res) => {
   try{
     const id = req.body;
     const { name, about } = req.body;
-    const user = await User.findByIdAndUpdate(id, { name, about });
-    console.log('user', user);
-    res.status(200).send(user);
+    const user = await User.findByIdAndUpdate(id, { name, about }, { new: true, runValidators: true })
+    res.status(200).send(user)
   }
   catch(err) {
     if (err.name === 'ValidationError') {
@@ -74,6 +73,11 @@ const changeProfile = async (req, res) => {
         .map(error => error.message)
       .join(', ')}`,
       });
+      return;
+    }
+    if (err.massage === 'ValidationError') {
+      res.status(404).send({
+        message: `Пользователь с данным id не найден` });
       return;
     }
     res.status(500).send({ message: 'Произошла ошибка' });
@@ -93,6 +97,11 @@ function changeAvatar(req, res) {
         .map(error => error.message)
       .join(', ')}`,
       });
+      return;
+    }
+    if (err.massage === 'ValidationError') {
+      res.status(404).send({
+        message: `Пользователь с данным id не найден` });
       return;
     }
     res.status(500).send({ message: 'Произошла ошибка' });
