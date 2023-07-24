@@ -41,23 +41,21 @@ function likeCard(req, res) {
     req.params.cardId,
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
     { new: true },
-  ).then(user => {
-    if(!user) {
-      return res.status(404).send({ message: 'Нет пользователя с таким id' });
+  ).then(card => {
+    if(!card) {
+      return res.status(404).send({ message: 'Нет карточки с таким id' });
     }
 
     res.status(200).send({ message: 'Лайк поставлен успешно' });
   })
   .catch(err => {
-    if (err instanceof mongoose.CastError) {
+    if (err.name === 'CastError') {
       res.status(400).send({
-        message: `${Object.values(err.errors)
-        .map(error => error.message)
-      .join(', ')}`,
+        message: `Переданы некорректные данные`,
       });
       return;
     }
-    res.status(500).send({ message: 'Произошла ошибка' });
+    res.status(500).send({ message: `Произошла ошибка` });
   });
 }
 
