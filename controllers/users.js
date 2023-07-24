@@ -15,7 +15,12 @@ function getUser(req, res) {
 
     res.status(200).send(user);
   })
-  .catch(err => res.status(500).send({ message: 'Произошла ошибка' }));
+  .catch (err=> {
+    if (err.kind === "ObjectId"){
+      return res.status(400).send({ message: 'Введен некорректный id' });
+    }
+
+    res.status(500).send({ message: 'Произошла ошибка' })});
 }
 
 function createUser(req, res) {
