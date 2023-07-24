@@ -24,16 +24,24 @@ function createCard(req, res) {
 }
 
 function deleteCard(req, res) {
-  const id = req.params.userId;
+  const id = req.params.cardId;
+  console.log('del', id)
   return Card.findByIdAndRemove(id)
     .then(user => {
       if(!user) {
         return res.status(404).send({ message: 'Нет пользователя с таким id' });
       }
-
       res.status(200).send({ message: 'Удаление прошло успешно' });
     })
-    .catch(err => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch(err => {
+      if (err.name === 'CastError') {
+        res.status(400).send({
+          message: `Переданы некорректные данные`,
+        });
+        return;
+      }
+      res.status(500).send({ message: 'Произошла ошибка' });
+    })
 }
 
 function likeCard(req, res) {
