@@ -71,7 +71,7 @@ function dislikeCard(req, res) {
     res.status(200).send({ message: 'Лайк снаят успешно' });
   })
   .catch(err => {
-    if (err.name === 'ValidationError') {
+    if (err.name === 'CastError') {
       res.status(400).send({
         message: `${Object.values(err.errors)
         .map(error => error.message)
