@@ -85,9 +85,9 @@ const changeProfile = async (req, res) => {
 }
 
 function changeAvatar(req, res) {
-  const id = req.params.userId;
+  const id = req.user._id;
   const { avatar } = req.body;
-  return User.findByIdAndUpdate(id, { avatar }).then(user => {
+  return User.findByIdAndUpdate(id, { avatar }, { new: true, runValidators: true }).then(user => {
     res.status(200).send(user);
   })
   .catch(err => {
