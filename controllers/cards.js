@@ -6,7 +6,8 @@ function getCards(req, res) {
 }
 
 function createCard(req, res) {
-  return Card.create({ ...req.body }).then(user => {
+  const id = req.user._id;
+  return Card.create({ ...req.body, owner: id }).then(user => {
     res.status(201).send(user);
   })
   .catch(err => {

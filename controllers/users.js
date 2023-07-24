@@ -40,25 +40,6 @@ function createUser(req, res) {
   });
 }
 
-// function changeProfile(req, res) {
-//   const id = req.body;
-//   const { name, about } = req.body;
-//   return User.findByIdAndUpdate(id, { name, about }).then(user => {
-//     res.status(200).send(user);
-//   })
-//   .catch(err => {
-//     if (err.name === 'ValidationError') {
-//       res.status(400).send({
-//         message: `${Object.values(err.errors)
-//         .map(error => error.message)
-//       .join(', ')}`,
-//       });
-//       return;
-//     }
-//     res.status(500).send({ message: 'Произошла ошибка' });
-//   });
-// }
-
 const changeProfile = async (req, res) => {
   try{
     const id = req.user._id;
