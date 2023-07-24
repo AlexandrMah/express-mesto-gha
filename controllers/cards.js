@@ -31,7 +31,7 @@ function deleteCard(req, res) {
         return res.status(404).send({ message: 'Нет пользователя с таким id' });
       }
 
-      res.send({ message: 'Удаление прошло успешно' });
+      res.status(200).send({ message: 'Удаление прошло успешно' });
     })
     .catch(err => res.status(500).send({ message: 'Произошла ошибка' }));
 }
@@ -46,9 +46,19 @@ function likeCard(req, res) {
       return res.status(404).send({ message: 'Нет пользователя с таким id' });
     }
 
-    res.send({ message: 'Лайк поставлен успешно' });
+    res.status(200).send({ message: 'Лайк поставлен успешно' });
   })
-  .catch(err => res.status(500).send({ message: 'Произошла ошибка' }));
+  .catch(err => {
+    if (err.name === 'ValidationError') {
+      res.status(400).send({
+        message: `${Object.values(err.errors)
+        .map(error => error.message)
+      .join(', ')}`,
+      });
+      return;
+    }
+    res.status(500).send({ message: 'Произошла ошибка' });
+  });
 }
 
 function dislikeCard(req, res) {
@@ -60,10 +70,19 @@ function dislikeCard(req, res) {
     if(!user) {
       return res.status(404).send({ message: 'Нет пользователя с таким id' });
     }
-
-    res.send({ message: 'Лайк снаят успешно' });
+    res.status(200).send({ message: 'Лайк снаят успешно' });
   })
-  .catch(err => res.status(500).send({ message: 'Произошла ошибка' }));
+  .catch(err => {
+    if (err.name === 'ValidationError') {
+      res.status(400).send({
+        message: `${Object.values(err.errors)
+        .map(error => error.message)
+      .join(', ')}`,
+      });
+      return;
+    }
+    res.status(500).send({ message: 'Произошла ошибка' });
+  });
 }
 
 module.exports = {
