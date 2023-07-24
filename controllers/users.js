@@ -8,19 +8,20 @@ function getUsers(req, res) {
 
 function getUser(req, res) {
   const id = req.params.userId;
-  return User.findById(id).then(user => {
-    if(!user) {
-      return res.status(404).send({ message: 'Нет пользователя с таким id' });
-    }
+  return User.findById(id)
+    .orFail(new Error('NotValidId'))
+    .then(user => {
+      res.status(200).send(user);
+    })
+    .catch (err=> {
+      if(err.message === 'NotValidId') {
+        return res.status(404).send({ message: 'Нет пользователя с таким id' });
+      }
+      if (err.kind === "ObjectId"){
+        return res.status(400).send({ message: 'Введен некорректный id' });
+      }
 
-    res.status(200).send(user);
-  })
-  .catch (err=> {
-    if (err.kind === "ObjectId"){
-      return res.status(400).send({ message: 'Введен некорректный id' });
-    }
-
-    res.status(500).send({ message: 'Произошла ошибка' })});
+      res.status(500).send({ message: 'Произошла ошибка' })});
 }
 
 function createUser(req, res) {

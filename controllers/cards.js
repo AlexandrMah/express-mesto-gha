@@ -25,7 +25,6 @@ function createCard(req, res) {
 
 function deleteCard(req, res) {
   const id = req.params.cardId;
-  console.log('del', id)
   return Card.findByIdAndRemove(id)
     .then(user => {
       if(!user) {
