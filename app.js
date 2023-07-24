@@ -13,6 +13,14 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+  req.user = {
+    _id: '64be712bdb1a8c0a88427bc7'
+  };
+
+  next();
+});
+
 app.use(routes)
 
 async function main() {
