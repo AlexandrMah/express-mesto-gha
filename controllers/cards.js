@@ -73,9 +73,7 @@ function dislikeCard(req, res) {
   .catch(err => {
     if (err.name === 'CastError') {
       res.status(400).send({
-        message: `${Object.values(err.errors)
-        .map(error => error.message)
-      .join(', ')}`,
+        message: `Переданы некорректные данные`,
       });
       return;
     }
