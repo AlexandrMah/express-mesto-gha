@@ -49,7 +49,7 @@ function likeCard(req, res) {
     res.status(200).send({ message: 'Лайк поставлен успешно' });
   })
   .catch(err => {
-    if (err.name === 'ValidationError') {
+    if (err instanceof mongoose.CastError) {
       res.status(400).send({
         message: `${Object.values(err.errors)
         .map(error => error.message)
