@@ -62,7 +62,6 @@ function createUser(req, res) {
 const changeProfile = async (req, res) => {
   try{
     const id = req.user._id;
-    console.log(id);
     const { name, about } = req.body;
     const user = await User.findByIdAndUpdate(id, { name, about }, { new: true, runValidators: true })
     res.status(200).send(user)
@@ -87,13 +86,11 @@ const changeProfile = async (req, res) => {
 
 function changeAvatar(req, res) {
   const id = req.params.userId;
-  console.log(req.user._id, '2');
   const { avatar } = req.body;
   return User.findByIdAndUpdate(id, { avatar }).then(user => {
     res.status(200).send(user);
   })
   .catch(err => {
-    console.log(req.user._id, '1');
     if (err.name === 'ValidationError') {
       res.status(400).send({
         message: `${Object.values(err.errors)

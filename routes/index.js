@@ -5,7 +5,7 @@ const cardRouter = require('./cards');
 
 router.use((req, res, next) => {
   req.user = {
-    _id: '64be6d668598702364364a48' // вставьте сюда _id созданного в предыдущем пункте пользователя
+    _id: '64be712bdb1a8c0a88427bc7'
   };
 
   next();
