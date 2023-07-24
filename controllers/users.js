@@ -41,29 +41,55 @@ function createUser(req, res) {
   });
 }
 
-const changeProfile = async (req, res) => {
-  try{
-    const id = req.user._id;
-    const { name, about } = req.body;
-    const user = await User.findByIdAndUpdate(id, { name, about }, { new: true, runValidators: true })
-    res.status(200).send(user)
-  }
-  catch(err) {
-    if (err.name === 'ValidationError') {
-      res.status(400).send({
-        message: `${Object.values(err.errors)
-        .map(error => error.message)
-      .join(', ')}`,
-      });
-      return;
-    }
-    if (err.massage === 'ValidationError') {
-      res.status(404).send({
-        message: `Пользователь с данным id не найден` });
-      return;
-    }
-    res.status(500).send({ message: 'Произошла ошибка' });
-  };
+// const changeProfile = async (req, res) => {
+//   try{
+//     const id = req.user._id;
+//     const { name, about } = req.body;
+//     const user = await User.findByIdAndUpdate(id, { name, about }, { new: true, runValidators: true })
+//     res.status(200).send(user)
+//   }
+//   catch(err) {
+//     if (err.name === 'ValidationError') {
+//       res.status(400).send({
+//         message: `${Object.values(err.errors)
+//         .map(error => error.message)
+//       .join(', ')}`,
+//       });
+//       return;
+//     }
+//     if (err.massage === 'ValidationError') {
+//       res.status(404).send({
+//         message: `Пользователь с данным id не найден` });
+//       return;
+//     }
+//     res.status(500).send({ message: 'Произошла ошибка' });
+//   };
+// }
+
+function changeProfile(req, res) {
+  const id = req.user._id;
+  const { name, about } = req.body;
+  return User.findByIdAndUpdate(id, { name, about }, { new: true, runValidators: true })
+    .orFail(new Error('NotValidId'))
+    .then(user => {
+      res.status(200).send(user)
+    })
+    .catch(err => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({
+          message: `${Object.values(err.errors)
+          .map(error => error.message)
+        .join(', ')}`,
+        });
+        return;
+      }
+      if (err.massage === 'NotValidId') {
+        res.status(404).send({
+          message: `Пользователь с данным id не найден` });
+        return;
+      }
+      res.status(500).send({ message: 'Произошла ошибка' });
+    });
 }
 
 function changeAvatar(req, res) {
