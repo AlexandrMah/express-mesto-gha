@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const cardSchema = new mongoose.Schema({
   name: { // у пользователя есть имя — опишем требования к имени в схеме:
     type: String, // имя — это строка
-    required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
-    minlength: 2, // минимальная длина имени — 2 символа
-    maxlength: 30, // а максимальная — 30 символов
+    required: [true, 'Поле "name" должно быть заполнено'],
+    minlength: [2, 'Минимальная длина поля "name" - 2'],
+    maxlength: [30, 'Максимальная длина поля "name" - 30'],
   },
   link: {
     type: String,
@@ -22,7 +22,8 @@ const cardSchema = new mongoose.Schema({
   createAt: {
     type: Date,
     default: Date.now,
-  }
+  },
+  versionKey: false
 });
 
 module.exports = mongoose.model('card', cardSchema);
