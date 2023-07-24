@@ -15,14 +15,6 @@ app.use(bodyParser.json());
 
 app.use(routes)
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '64bd175f64e8e727d22c4576' // вставьте сюда _id созданного в предыдущем пункте пользователя
-  };
-
-  next();
-});
-
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
     useNewUrlParser: true,
