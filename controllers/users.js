@@ -15,10 +15,12 @@ function getUser(req, res) {
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {
-        return res.status(404).send({ message: 'Нет пользователя с таким id' });
+        res.status(404).send({ message: 'Нет пользователя с таким id' });
+        return;
       }
       if (err.kind === 'ObjectId') {
-        return res.status(400).send({ message: 'Введен некорректный id' });
+        res.status(400).send({ message: 'Введен некорректный id' });
+        return;
       }
 
       res.status(500).send({ message: 'Произошла ошибка' });

@@ -29,7 +29,8 @@ function deleteCard(req, res) {
   return Card.findByIdAndRemove(id)
     .then((card) => {
       if (!card) {
-        return res.status(404).send({ message: 'Нет пользователя с таким id' });
+        res.status(404).send({ message: 'Нет пользователя с таким id' });
+        return;
       }
       res.status(200).send({ message: 'Удаление прошло успешно' });
     })
@@ -51,7 +52,8 @@ function likeCard(req, res) {
     { new: true },
   ).then((card) => {
     if (!card) {
-      return res.status(404).send({ message: 'Нет карточки с таким id' });
+      res.status(404).send({ message: 'Нет карточки с таким id' });
+      return;
     }
 
     res.status(200).send({ message: 'Лайк поставлен успешно' });
@@ -74,7 +76,8 @@ function dislikeCard(req, res) {
     { new: true },
   ).then((user) => {
     if (!user) {
-      return res.status(404).send({ message: 'Нет пользователя с таким id' });
+      res.status(404).send({ message: 'Нет пользователя с таким id' });
+      return;
     }
     res.status(200).send({ message: 'Лайк снаят успешно' });
   })
