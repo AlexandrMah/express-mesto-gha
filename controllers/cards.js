@@ -27,8 +27,8 @@ function createCard(req, res) {
 function deleteCard(req, res) {
   const id = req.params.cardId;
   return Card.findByIdAndRemove(id)
-    .then((user) => {
-      if (!user) {
+    .then((card) => {
+      if (!card) {
         return res.status(404).send({ message: 'Нет пользователя с таким id' });
       }
       res.status(200).send({ message: 'Удаление прошло успешно' });
