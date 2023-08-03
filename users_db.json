@@ -2,12 +2,16 @@
   {
     "about": "Исследователь океана",
     "name": "Жак-Ив Кусто",
-    "avatar": "https://taxpert.ru/neuroavatar/max/67000e2e13e80c61.jpg"
+    "avatar": "https://taxpert.ru/neuroavatar/max/67000e2e13e80c61.jpg",
+    "email": "yret@ya.ru",
+    "password": "12345"
   },
   {
     "about": "Исследователь океана",
     "name": "Жак-Ив Кусто",
-    "avatar": "https://taxpert.ru/neuroavatar/max/67000e2e13e80c61.jpg"
+    "avatar": "https://taxpert.ru/neuroavatar/max/67000e2e13e80c61.jpg",
+    "email": "yret1@ya.ru",
+    "password": "123456"
   }
 ]
 
