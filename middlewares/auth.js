@@ -4,21 +4,21 @@ const auth = (req, res, next) => {
   const { token } = req.headers;
 
   if (!token) {
-    res.status(401).send({ message: 'Необходима авторизация'});
+    res.status(401).send({ message: 'Необходима авторизация' });
     return;
   }
 
   let payload;
-  try{
+  try {
     payload = JWT.verify(token, 'some-secret-key');
-  } catch(err) {
-      res.status(401).send({ message: 'Необходима авторизация'});
-      return;
+  } catch (err) {
+    res.status(401).send({ message: 'Необходима авторизация' });
+    return;
   }
 
   req.user = payload;
 
   next();
-}
+};
 
-module.exports = { auth }
+module.exports = { auth };

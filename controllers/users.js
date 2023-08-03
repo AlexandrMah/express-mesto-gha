@@ -1,6 +1,6 @@
-const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
+const User = require('../models/user');
 
 function getUsers(req, res) {
   return User.find({})
@@ -35,9 +35,10 @@ const createUser = async (req, res) => {
     const hash = await bcrypt.hash(password, 10);
 
     const user = await User.create({ email, password: hash });
-    res.status(201).send({ _id: user._id, name: user.name, about: user.about, avatar: user.avatar, email: user.email });
-  }
-  catch(err) {
+    res.status(201).send({
+      _id: user._id, name: user.name, about: user.about, avatar: user.avatar, email: user.email,
+    });
+  } catch (err) {
     if (err.name === 'ValidationError') {
       res.status(400).send({
         message: `${Object.values(err.errors)
@@ -47,8 +48,8 @@ const createUser = async (req, res) => {
       return;
     }
     res.status(500).send({ message: 'Произошла ошибка' });
-  };
-}
+  }
+};
 
 function changeProfile(req, res) {
   const id = req.user._id;
@@ -113,7 +114,7 @@ const login = async (req, res) => {
 
     const result = await bcrypt.compare(password, user.password);
 
-    if(!result){
+    if (!result) {
       res.status(401).send({ message: 'Введен неправильный логин или пароль!2' });
       return;
     }
@@ -125,8 +126,7 @@ const login = async (req, res) => {
 
     res.cookie('jwt', token);
     res.status(200).send(payload);
-  }
-  catch(err) {
+  } catch (err) {
     if (err.name === 'ValidationError') {
       res.status(400).send({
         message: `${Object.values(err.errors)
@@ -136,8 +136,8 @@ const login = async (req, res) => {
       return;
     }
     res.status(500).send({ message: 'Произошла ошибка' });
-  };
-}
+  }
+};
 
 const userInfo = (req, res) => {
   User.findById(req.user._id)
@@ -157,8 +157,7 @@ const userInfo = (req, res) => {
 
       res.status(500).send({ message: 'Произошла ошибка' });
     });
-}
-
+};
 
 module.exports = {
   getUsers,
