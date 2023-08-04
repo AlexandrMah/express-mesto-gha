@@ -33,14 +33,13 @@ function deleteCard(req, res) {
         res.status(403).send({ message: 'Недостаточно прав для удаления этой карточки' });
         return;
       }
-      return Card.findByIdAndRemove(id)
+      Card.findByIdAndRemove(id)
         .then(() => {
-          res.status(200).send({ message: 'Ok'});
-        })
-
+          res.status(200).send({ message: 'Ok' });
+        });
     })
-    .catch((exc) => {
-       res.status(500);
+    .catch(() => {
+      res.status(500);
     });
 }
 
