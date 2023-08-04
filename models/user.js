@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
   name: { // у пользователя есть имя — опишем требования к имени в схеме:
@@ -7,6 +8,7 @@ const userSchema = new mongoose.Schema({
     maxlength: [30, 'Максимальная длина поля "name" - 30'],
     default: 'Жак-Ив Кусто',
   },
+
   about: {
     type: String,
     minlength: [2, 'Минимальная длина поля "name" - 2'],
@@ -15,11 +17,18 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
+    validate: {
+      validator: (v) => validator.isURL(v),
+      message: 'Введен некорректный адрес расположения фото',
+    },
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
   },
-  versionKey: false,
   email: {
     type: String,
+    validate: {
+      validator: (v) => validator.isEmail(v),
+      message: 'Введен некорректный адрес электронной почты',
+    },
     required: [true, 'Поле "email" должно быть заполнено'],
     unique: true,
   },
@@ -28,6 +37,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Поле "password" должно быть заполнено'],
     minlength: [8, 'Минимальная длина поля "password" - 8'],
     select: false,
+    versionKey: false,
   },
 });
 
