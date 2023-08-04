@@ -131,7 +131,6 @@ const login = async (req, res) => {
 
     const token = JWT.sign(payload, 'some-secret-key', { expiresIn: '7d' });
 
-
     res.cookie(token);
     res.status(200).json(token);
   } catch (err) {
