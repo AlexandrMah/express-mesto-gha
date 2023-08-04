@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { celebrate, Joi, errors  } = require('celebrate');
+const { celebrate, Joi, errors } = require('celebrate');
 
 const userRouter = require('./users');
 const cardRouter = require('./cards');
@@ -31,8 +31,8 @@ router.use((req, res) => {
   res.status(404).send({ message: `Ресурс по адресу ${req.path} не найден` });
 });
 
-router.use((err, req, res, next) => {
-  // это обработчик ошибки
-});
+// router.use((err, req, res, next) => {
+//   // это обработчик ошибки
+// });
 
 module.exports = router;
