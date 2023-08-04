@@ -130,10 +130,10 @@ const login = async (req, res) => {
     const payload = { _id: user._id };
 
     const token = JWT.sign(payload, 'some-secret-key', { expiresIn: '7d' });
-    console.log('токен', token);
+
 
     res.cookie(token);
-    res.status(200).send(token);
+    res.status(200).json(token);
   } catch (err) {
     if (err.name === 'ValidationError') {
       res.status(400).send({
@@ -148,7 +148,6 @@ const login = async (req, res) => {
 };
 
 const userInfo = (req, res) => {
-  console.log('1111')
   User.findById(req.user._id)
     .orFail(new Error('NotValidId'))
     .then((user) => {
