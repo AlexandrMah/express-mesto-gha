@@ -10,7 +10,7 @@ router.get('/me', userInfo);
 
 router.get('/:userId', celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().required().regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i),
+    userId: Joi.string().regex(/^[a-f\d]{24}$/i).required(),
   }),
 }), getUser);
 
