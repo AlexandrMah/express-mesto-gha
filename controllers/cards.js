@@ -29,10 +29,16 @@ function deleteCard(req, res) {
   const userId = req.user._id;
   Card.findById(id)
     .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'Нет пользователя с таким id' });
+        return;
+      }
+
       if (userId !== card.owner.toString()) {
         res.status(403).send({ message: 'Недостаточно прав для удаления этой карточки' });
         return;
       }
+
       Card.findByIdAndRemove(id)
         .then(() => {
           res.status(200).send({ message: 'Ok' });
