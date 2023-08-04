@@ -40,7 +40,6 @@ const createUser = async (req, res) => {
     }
 
     const hash = await bcrypt.hash(password, 10);
-    console.log(hash);
 
     const user = await User.create({ email, ...req.body, password: hash });
     res.status(201).send({
@@ -131,7 +130,7 @@ const login = async (req, res) => {
 
     const token = JWT.sign(payload, 'some-secret-key', { expiresIn: '7d' });
 
-    res.cookie(token);
+    res.cookie('JWT', token);
     res.status(200).json(token);
   } catch (err) {
     if (err.name === 'ValidationError') {

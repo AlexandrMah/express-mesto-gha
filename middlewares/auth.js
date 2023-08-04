@@ -1,12 +1,14 @@
 const JWT = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
-  const token = req.headers.authorization;
+  const tokenKey = req.headers.cookie;
 
-  if (!token) {
+  if (!tokenKey) {
     res.status(401).send({ message: 'Необходима авторизация' });
     return;
   }
+
+  const token = tokenKey.slice(4);
 
   let payload;
   try {
@@ -15,7 +17,7 @@ const auth = (req, res, next) => {
     res.status(401).send({ message: 'Необходима авторизация' });
     return;
   }
-  console.log('payload', payload);
+
   req.user = payload;
 
   next();
