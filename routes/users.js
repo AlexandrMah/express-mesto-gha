@@ -14,7 +14,12 @@ router.get('/:userId', celebrate({
   }),
 }), getUser);
 
-router.patch('/me', changeProfile);
+router.patch('/me', celebrate({
+  params: Joi.object().keys({
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+  }),
+}), changeProfile);
 
 router.patch('/me/avatar', changeAvatar);
 
