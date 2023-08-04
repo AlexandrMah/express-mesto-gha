@@ -34,6 +34,14 @@ const createUser = async (req, res) => {
     const { email, password } = req.body;
     const hash = await bcrypt.hash(password, 10);
 
+    const newEmail = await User.findOne({ email })
+    console.log(newEmail.email);
+
+    if (newEmail.email === email) {
+      res.status(409).send({ message: `${email} 'Такая почта уже есть'` });
+      return;
+    }
+
     const user = await User.create({ email, password: hash, ...req.body });
     res.status(201).send({
       _id: user._id, name: user.name, about: user.about, avatar: user.avatar, email: user.email,
