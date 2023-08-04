@@ -21,7 +21,13 @@ router.patch('/me', celebrate({
   }),
 }), changeProfile);
 
-router.patch('/me/avatar', changeAvatar);
+router.patch('/me/avatar', celebrate({
+  body: Joi.object().keys({
+    avatar: Joi.string().pattern(
+      /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{1,6}\b([-a-zA-Z0-9\-._~:/?#[\]@!$&'()*+.;=]*)$/,
+    ),
+  }),
+}), changeAvatar);
 
 router.use(errors());
 
