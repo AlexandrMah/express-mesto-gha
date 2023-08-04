@@ -26,22 +26,21 @@ function createCard(req, res) {
 
 function deleteCard(req, res) {
   const id = req.params.cardId;
-  return Card.findByIdAndRemove(id)
+  const userId = req.user._id;
+  Card.findById(id)
     .then((card) => {
-      if (!card) {
-        res.status(404).send({ message: 'Нет пользователя с таким id' });
+      if (userId !== card.owner.toString()) {
+        res.status(403).send({ message: 'Недостаточно прав для удаления этой карточки' });
         return;
       }
-      res.status(200).send({ message: 'Удаление прошло успешно' });
+      return Card.findByIdAndRemove(id)
+        .then(() => {
+          res.status(200).send({ message: 'Ok'});
+        })
+
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({
-          message: 'Переданы некорректные данные',
-        });
-        return;
-      }
-      res.status(500).send({ message: 'Произошла ошибка' });
+    .catch((exc) => {
+       res.status(500);
     });
 }
 
