@@ -17,9 +17,17 @@ router.post('/', celebrate({
 
 router.delete('/:cardId', deleteCard);
 
-router.put('/:cardId/likes', likeCard);
+router.put('/:cardId/likes', celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().regex(/^[a-f\d]{24}$/i).required(),
+  }),
+}), likeCard);
 
-router.delete('/:cardId/likes', dislikeCard);
+router.delete('/:cardId/likes', celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().regex(/^[a-f\d]{24}$/i).required(),
+  }),
+}), dislikeCard);
 
 router.use(errors());
 
