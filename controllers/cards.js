@@ -33,6 +33,7 @@ function deleteCard(req, res, next) {
       if (userId !== card.owner.toString()) {
         const error = 403;
         next(error);
+        return;
       }
 
       Card.findByIdAndRemove(id)
