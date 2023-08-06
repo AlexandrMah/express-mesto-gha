@@ -52,8 +52,8 @@ function likeCard(req, res, next) {
     if (!card) {
       const error = 404;
       next(error);
+      return;
     }
-
     res.status(200).send({ message: 'Лайк поставлен успешно' });
   })
     .catch((err) => {
@@ -74,6 +74,7 @@ function dislikeCard(req, res, next) {
     if (!user) {
       const error = 404;
       next(error);
+      return;
     }
     res.status(200).send({ message: 'Лайк снаят успешно' });
   })
