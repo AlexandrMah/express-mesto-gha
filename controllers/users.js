@@ -17,9 +17,9 @@ function getUser(req, res, next) {
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {
-        const err = 404;
-        next(err);
-        //res.status(404).send({ message: 'Нет пользователя с таким id' });
+        const error = 404;
+        next(error);
+        // res.status(404).send({ message: 'Нет пользователя с таким id' });
         // return;
       }
       // if (err.kind === 'ObjectId') {
