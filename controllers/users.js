@@ -6,8 +6,6 @@ function getUsers(req, res, next) {
   return User.find({})
     .then((users) => res.status(200).send(users))
     .catch((err) => next(err));
-  // res.status(500).send({ message: 'Произошла ошибка' })
-  // );
 }
 
 function getUser(req, res, next) {
@@ -25,11 +23,8 @@ function getUser(req, res, next) {
       if (err.kind === 'ObjectId') {
         const error = 400;
         next(error);
-        res.status(400).send({ message: 'Введен некорректный id' });
-        return;
       }
       next(err);
-      // res.status(500).send({ message: 'Произошла ошибка' });
     });
 }
 
