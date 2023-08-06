@@ -8,6 +8,10 @@ const error = (err, req, res, next) => {
     res.status(404).send({ message: 'Нет пользователя с таким id' });
   }
 
+  if (err === 409) {
+    res.status(409).send({ message: 'Такая почта уже есть' });
+  }
+
   res.status(500).send({ message: 'Произошла ошибка' });
 
   next();

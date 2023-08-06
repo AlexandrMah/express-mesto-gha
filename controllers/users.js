@@ -28,14 +28,16 @@ function getUser(req, res, next) {
     });
 }
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
     const newEmail = await User.findOne({ email });
     if (newEmail) {
-      res.status(409).send({ message: `${email} 'Такая почта уже есть'` });
-      return;
+      const error = 409;
+      next(error);
+      // res.status(409).send({ message: `${email} 'Такая почта уже есть'` });
+      // return;
     }
 
     const hash = await bcrypt.hash(password, 10);
