@@ -31,8 +31,8 @@ function deleteCard(req, res, next) {
       }
 
       if (userId !== card.owner.toString()) {
-        res.status(403).send({ message: 'Недостаточно прав для удаления этой карточки' });
-        return;
+        const error = 404;
+        next(error);
       }
 
       Card.findByIdAndRemove(id)
