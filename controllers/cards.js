@@ -1,12 +1,12 @@
 const Card = require('../models/card');
 
-function getCards(req, res) {
+function getCards(req, res, next) {
   return Card.find({})
     .then((users) => res.status(200).send(users))
     .catch((err) => next(err));
 }
 
-function createCard(req, res) {
+function createCard(req, res, next) {
   const id = req.user._id;
   return Card.create({ ...req.body, owner: id }).then((user) => {
     res.status(201).send(user);
@@ -24,7 +24,7 @@ function createCard(req, res) {
     });
 }
 
-function deleteCard(req, res) {
+function deleteCard(req, res, next) {
   const id = req.params.cardId;
   const userId = req.user._id;
   Card.findById(id)
@@ -44,12 +44,10 @@ function deleteCard(req, res) {
           res.status(200).send({ message: 'Карточка удалена успешно' });
         });
     })
-    .catch(() => {
-      next(err);
-    });
+    .catch((err) => next(err));
 }
 
-function likeCard(req, res) {
+function likeCard(req, res, next) {
   return Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
@@ -73,7 +71,7 @@ function likeCard(req, res) {
     });
 }
 
-function dislikeCard(req, res) {
+function dislikeCard(req, res, next) {
   return Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // убрать _id из массива
