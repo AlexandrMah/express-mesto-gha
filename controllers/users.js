@@ -23,11 +23,11 @@ function getUser(req, res, next) {
       if (err.kind === 'ObjectId') {
         const error = 400;
         next(error);
-        // res.status(400).send({ message: 'Введен некорректный id' });
-        // return;
+        res.status(400).send({ message: 'Введен некорректный id' });
+        return;
       }
-
-      res.status(500).send({ message: 'Произошла ошибка' });
+      next(err);
+      // res.status(500).send({ message: 'Произошла ошибка' });
     });
 }
 

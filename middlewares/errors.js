@@ -8,6 +8,7 @@ const error = (err, req, res, next) => {
     res.status(404).send({ message: 'Нет пользователя с таким id' });
   }
 
+  res.status(500).send({ message: 'Произошла ошибка' });
 
   next();
 };
