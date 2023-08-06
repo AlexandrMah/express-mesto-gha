@@ -63,18 +63,14 @@ function changeProfile(req, res, next) {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({
-          message: `${Object.values(err.errors)
-            .map((error) => error.message)
-            .join(', ')}`,
-        });
-        return;
+        const error = 400;
+        next(error);
       }
       if (err.massage === 'NotValidId') {
         const error = 404;
         next(error);
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      next(err);
     });
 }
 
@@ -88,22 +84,18 @@ function changeAvatar(req, res, next) {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({
-          message: `${Object.values(err.errors)
-            .map((error) => error.message)
-            .join(', ')}`,
-        });
-        return;
+        const error = 400;
+        next(error);
       }
       if (err.massage === 'NotValidId') {
         const error = 404;
         next(error);
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      next(err);
     });
 }
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -127,14 +119,10 @@ const login = async (req, res) => {
     res.status(200).json(token);
   } catch (err) {
     if (err.name === 'ValidationError') {
-      res.status(400).send({
-        message: `${Object.values(err.errors)
-          .map((error) => error.message)
-          .join(', ')}`,
-      });
-      return;
+      const error = 400;
+      next(error);
     }
-    res.status(500).send({ message: 'Произошла ошибка' });
+    next(err);
   }
 };
 
@@ -150,11 +138,11 @@ const userInfo = (req, res, next) => {
         next(error);
       }
       if (err.kind === 'ObjectId') {
-        res.status(400).send({ message: 'Введен некорректный id' });
-        return;
+        const error = 400;
+        next(error);
       }
 
-      res.status(500).send({ message: 'Произошла ошибка' });
+      next(err);
     });
 };
 
