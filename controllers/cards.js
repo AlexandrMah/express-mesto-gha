@@ -3,7 +3,7 @@ const Card = require('../models/card');
 function getCards(req, res) {
   return Card.find({})
     .then((users) => res.status(200).send(users))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => next(err));
 }
 
 function createCard(req, res) {
@@ -20,7 +20,7 @@ function createCard(req, res) {
         });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      next(err);
     });
 }
 
@@ -45,7 +45,7 @@ function deleteCard(req, res) {
         });
     })
     .catch(() => {
-      res.status(500).send({ message: 'Произошла ошибка' });
+      next(err);
     });
 }
 
@@ -69,7 +69,7 @@ function likeCard(req, res) {
         });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      next(err);
     });
 }
 
@@ -92,7 +92,7 @@ function dislikeCard(req, res) {
         });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      next(err);
     });
 }
 
