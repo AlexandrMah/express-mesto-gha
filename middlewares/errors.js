@@ -1,7 +1,7 @@
 const error = (err, req, res, next) => {
   console.log(err);
   if (err === 400) {
-    res.status(400).send({ message: 'Введен некорректный id' });
+    res.status(400).send({ message: 'Введены некорректные данные' });
   }
 
   if (err === 401) {
@@ -9,7 +9,7 @@ const error = (err, req, res, next) => {
   }
 
   if (err === 404) {
-    res.status(404).send({ message: 'Нет пользователя с таким id' });
+    res.status(404).send({ message: 'Нет такого id' });
   }
 
   if (err === 409) {

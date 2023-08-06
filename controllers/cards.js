@@ -13,12 +13,8 @@ function createCard(req, res, next) {
   })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({
-          message: `${Object.values(err.errors)
-            .map((error) => error.message)
-            .join(', ')}`,
-        });
-        return;
+        const error = 400;
+        next(error);
       }
       next(err);
     });
@@ -62,10 +58,8 @@ function likeCard(req, res, next) {
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({
-          message: 'Переданы некорректные данные',
-        });
-        return;
+        const error = 400;
+        next(error);
       }
       next(err);
     });
@@ -85,10 +79,8 @@ function dislikeCard(req, res, next) {
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({
-          message: 'Переданы некорректные данные',
-        });
-        return;
+        const error = 400;
+        next(error);
       }
       next(err);
     });
