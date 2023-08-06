@@ -36,8 +36,6 @@ const createUser = async (req, res, next) => {
     if (newEmail) {
       const error = 409;
       next(error);
-      // res.status(409).send({ message: `${email} 'Такая почта уже есть'` });
-      // return;
     }
 
     const hash = await bcrypt.hash(password, 10);
@@ -48,14 +46,10 @@ const createUser = async (req, res, next) => {
     });
   } catch (err) {
     if (err.name === 'ValidationError') {
-      res.status(400).send({
-        message: `${Object.values(err.errors)
-          .map((error) => error.message)
-          .join(', ')}`,
-      });
-      return;
+      const error = 400;
+      next(error);
     }
-    res.status(500).send({ message: 'Произошла ошибка' });
+    next(err);
   }
 };
 
