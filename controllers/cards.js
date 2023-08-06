@@ -41,11 +41,11 @@ function deleteCard(req, res) {
 
       Card.findByIdAndRemove(id)
         .then(() => {
-          res.status(200).send({ message: 'Ok' });
+          res.status(200).send({ message: 'Карточка удалена успешно' });
         });
     })
     .catch(() => {
-      res.status(500);
+      res.status(500).send({ message: 'Произошла ошибка' });
     });
 }
 

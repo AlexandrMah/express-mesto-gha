@@ -8,7 +8,7 @@ function getUsers(req, res) {
     .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
 }
 
-function getUser(req, res) {
+function getUser(req, res, next) {
   const id = req.params.userId;
   return User.findById(id)
     .orFail(new Error('NotValidId'))
@@ -17,15 +17,17 @@ function getUser(req, res) {
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {
-        res.status(404).send({ message: 'Нет пользователя с таким id' });
-        return;
+        const err = 404;
+        next(err);
+        //res.status(404).send({ message: 'Нет пользователя с таким id' });
+        // return;
       }
-      if (err.kind === 'ObjectId') {
-        res.status(400).send({ message: 'Введен некорректный id' });
-        return;
-      }
+      // if (err.kind === 'ObjectId') {
+      //   res.status(400).send({ message: 'Введен некорректный id' });
+      //   return;
+      // }
 
-      res.status(500).send({ message: 'Произошла ошибка' });
+      // res.status(500).send({ message: 'Произошла ошибка' });
     });
 }
 

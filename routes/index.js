@@ -7,6 +7,7 @@ const {
   createUser, login,
 } = require('../controllers/users');
 const { auth } = require('../middlewares/auth');
+const { error } = require('../middlewares/errors');
 
 router.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -34,12 +35,10 @@ router.use(auth);
 router.use('/users', userRouter);
 router.use('/cards', cardRouter);
 
+router.use(error);
+
 router.use((req, res) => {
   res.status(404).send({ message: `Ресурс по адресу ${req.path} не найден` });
 });
-
-// router.use((err, req, res, next) => {
-//   // это обработчик ошибки
-// });
 
 module.exports = router;
