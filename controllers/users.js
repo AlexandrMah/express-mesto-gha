@@ -2,10 +2,12 @@ const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const User = require('../models/user');
 
-function getUsers(req, res) {
+function getUsers(req, res, next) {
   return User.find({})
     .then((users) => res.status(200).send(users))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => next(err));
+  // res.status(500).send({ message: 'Произошла ошибка' })
+  // );
 }
 
 function getUser(req, res, next) {
