@@ -31,7 +31,7 @@ function deleteCard(req, res, next) {
       }
 
       if (userId !== card.owner.toString()) {
-        const error = 404;
+        const error = 403;
         next(error);
       }
 
