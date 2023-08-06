@@ -101,14 +101,14 @@ const login = async (req, res, next) => {
 
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      res.status(401).send({ message: `${email} 'Неправильные почта или пароль'` });
-      return;
+      const error = 401;
+      next(error);
     }
 
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
-      res.status(401).send({ message: 'Введен неправильный логин или пароль!2' });
-      return;
+      const error = 401;
+      next(error);
     }
 
     const payload = { _id: user._id };

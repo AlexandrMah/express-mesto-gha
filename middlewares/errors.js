@@ -4,6 +4,10 @@ const error = (err, req, res, next) => {
     res.status(400).send({ message: 'Введен некорректный id' });
   }
 
+  if (err === 401) {
+    res.status(401).send({ message: 'Неправильные почта или пароль' });
+  }
+
   if (err === 404) {
     res.status(404).send({ message: 'Нет пользователя с таким id' });
   }
