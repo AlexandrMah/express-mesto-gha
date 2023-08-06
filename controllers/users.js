@@ -19,15 +19,15 @@ function getUser(req, res, next) {
       if (err.message === 'NotValidId') {
         const error = 404;
         next(error);
-        // res.status(404).send({ message: 'Нет пользователя с таким id' });
+      }
+      if (err.kind === 'ObjectId') {
+        const error = 400;
+        next(error);
+        // res.status(400).send({ message: 'Введен некорректный id' });
         // return;
       }
-      // if (err.kind === 'ObjectId') {
-      //   res.status(400).send({ message: 'Введен некорректный id' });
-      //   return;
-      // }
 
-      // res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(500).send({ message: 'Произошла ошибка' });
     });
 }
 
@@ -80,8 +80,6 @@ function changeProfile(req, res, next) {
       if (err.massage === 'NotValidId') {
         const error = 404;
         next(error);
-        // res.status(404).send({ message: 'Пользователь с данным id не найден' });
-        // return;
       }
       res.status(500).send({ message: 'Произошла ошибка' });
     });
@@ -107,8 +105,6 @@ function changeAvatar(req, res, next) {
       if (err.massage === 'NotValidId') {
         const error = 404;
         next(error);
-        // res.status(404).send({ message: 'Пользователь с данным id не найден' });
-        // return;
       }
       res.status(500).send({ message: 'Произошла ошибка' });
     });
@@ -159,8 +155,6 @@ const userInfo = (req, res, next) => {
       if (err.message === 'NotValidId') {
         const error = 404;
         next(error);
-        // res.status(404).send({ message: 'Нет пользователя с таким id' });
-        // return;
       }
       if (err.kind === 'ObjectId') {
         res.status(400).send({ message: 'Введен некорректный id' });
