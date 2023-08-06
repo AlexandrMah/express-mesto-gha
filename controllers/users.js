@@ -60,7 +60,7 @@ const createUser = async (req, res) => {
   }
 };
 
-function changeProfile(req, res) {
+function changeProfile(req, res, next) {
   const id = req.user._id;
   const { name, about } = req.body;
   return User.findByIdAndUpdate(id, { name, about }, { new: true, runValidators: true })
@@ -78,14 +78,16 @@ function changeProfile(req, res) {
         return;
       }
       if (err.massage === 'NotValidId') {
-        res.status(404).send({ message: 'Пользователь с данным id не найден' });
-        return;
+        const error = 404;
+        next(error);
+        // res.status(404).send({ message: 'Пользователь с данным id не найден' });
+        // return;
       }
       res.status(500).send({ message: 'Произошла ошибка' });
     });
 }
 
-function changeAvatar(req, res) {
+function changeAvatar(req, res, next) {
   const id = req.user._id;
   const { avatar } = req.body;
   return User.findByIdAndUpdate(id, { avatar }, { new: true, runValidators: true })
@@ -103,8 +105,10 @@ function changeAvatar(req, res) {
         return;
       }
       if (err.massage === 'NotValidId') {
-        res.status(404).send({ message: 'Пользователь с данным id не найден' });
-        return;
+        const error = 404;
+        next(error);
+        // res.status(404).send({ message: 'Пользователь с данным id не найден' });
+        // return;
       }
       res.status(500).send({ message: 'Произошла ошибка' });
     });
@@ -145,7 +149,7 @@ const login = async (req, res) => {
   }
 };
 
-const userInfo = (req, res) => {
+const userInfo = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(new Error('NotValidId'))
     .then((user) => {
@@ -153,8 +157,10 @@ const userInfo = (req, res) => {
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {
-        res.status(404).send({ message: 'Нет пользователя с таким id' });
-        return;
+        const error = 404;
+        next(error);
+        // res.status(404).send({ message: 'Нет пользователя с таким id' });
+        // return;
       }
       if (err.kind === 'ObjectId') {
         res.status(400).send({ message: 'Введен некорректный id' });
