@@ -28,6 +28,7 @@ function deleteCard(req, res, next) {
       if (!card) {
         const error = 404;
         next(error);
+        return;
       }
 
       if (userId !== card.owner.toString()) {
