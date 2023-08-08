@@ -21,7 +21,7 @@ function getUser(req, res, next) {
         next(error);
         return;
       }
-      if (err.kind === 'ObjectId') {
+      if (err.kind === 'Bad_Request') {
         const error = 400;
         next(error);
         return;
@@ -48,7 +48,7 @@ const createUser = async (req, res, next) => {
       _id: user._id, name: user.name, about: user.about, avatar: user.avatar, email: user.email,
     });
   } catch (err) {
-    if (err.name === 'ValidationError') {
+    if (err.name === 'Bad_Request') {
       const error = 400;
       next(error);
       return;
@@ -66,7 +66,7 @@ function changeProfile(req, res, next) {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'Bad_Request') {
         const error = 400;
         next(error);
         return;
@@ -89,7 +89,7 @@ function changeAvatar(req, res, next) {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'Bad_Request') {
         const error = 400;
         next(error);
         return;
