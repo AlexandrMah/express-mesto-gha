@@ -128,7 +128,7 @@ const login = async (req, res, next) => {
     res.cookie('JWT', token);
     res.status(200).json(token);
   } catch (err) {
-    console.log(err.name)
+    console.log(err.name);
     if (err.name === 'Bad_Request') {
       const error = 400;
       next(error);
@@ -147,11 +147,6 @@ const userInfo = (req, res, next) => {
     .catch((err) => {
       if (err.message === 'NOT_FOUNT') {
         const error = 404;
-        next(error);
-        return;
-      }
-      if (err.kind === 'ObjectId') {
-        const error = 400;
         next(error);
         return;
       }
