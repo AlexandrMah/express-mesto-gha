@@ -128,7 +128,8 @@ const login = async (req, res, next) => {
     res.cookie('JWT', token);
     res.status(200).json(token);
   } catch (err) {
-    if (err.name === 'ValidationError') {
+    console.log(err.name)
+    if (err.name === 'Bad_Request') {
       const error = 400;
       next(error);
       return;
