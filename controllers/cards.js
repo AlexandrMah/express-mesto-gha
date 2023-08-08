@@ -62,6 +62,7 @@ function likeCard(req, res, next) {
       if (err.name === 'CastError') {
         const error = 400;
         next(error);
+        return;
       }
       next(err);
     });
@@ -84,6 +85,7 @@ function dislikeCard(req, res, next) {
       if (err.name === 'CastError') {
         const error = 400;
         next(error);
+        return;
       }
       next(err);
     });

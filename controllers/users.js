@@ -19,10 +19,12 @@ function getUser(req, res, next) {
       if (err.message === 'NOT_FOUNT') {
         const error = 404;
         next(error);
+        return;
       }
       if (err.kind === 'ObjectId') {
         const error = 400;
         next(error);
+        return;
       }
       next(err);
     });
@@ -36,6 +38,7 @@ const createUser = async (req, res, next) => {
     if (newEmail) {
       const error = 409;
       next(error);
+      return;
     }
 
     const hash = await bcrypt.hash(password, 10);
@@ -48,6 +51,7 @@ const createUser = async (req, res, next) => {
     if (err.name === 'ValidationError') {
       const error = 400;
       next(error);
+      return;
     }
     next(err);
   }
@@ -65,10 +69,12 @@ function changeProfile(req, res, next) {
       if (err.name === 'ValidationError') {
         const error = 400;
         next(error);
+        return;
       }
       if (err.massage === 'NOT_FOUNT') {
         const error = 404;
         next(error);
+        return;
       }
       next(err);
     });
@@ -86,10 +92,12 @@ function changeAvatar(req, res, next) {
       if (err.name === 'ValidationError') {
         const error = 400;
         next(error);
+        return;
       }
       if (err.massage === 'NOT_FOUNT') {
         const error = 404;
         next(error);
+        return;
       }
       next(err);
     });
@@ -103,12 +111,14 @@ const login = async (req, res, next) => {
     if (!user) {
       const error = 401;
       next(error);
+      return;
     }
 
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
       const error = 401;
       next(error);
+      return;
     }
 
     const payload = { _id: user._id };
@@ -121,6 +131,7 @@ const login = async (req, res, next) => {
     if (err.name === 'ValidationError') {
       const error = 400;
       next(error);
+      return;
     }
     next(err);
   }
@@ -136,12 +147,13 @@ const userInfo = (req, res, next) => {
       if (err.message === 'NOT_FOUNT') {
         const error = 404;
         next(error);
+        return;
       }
       if (err.kind === 'ObjectId') {
         const error = 400;
         next(error);
+        return;
       }
-
       next(err);
     });
 };
