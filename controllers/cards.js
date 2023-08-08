@@ -37,7 +37,7 @@ function deleteCard(req, res, next) {
         return;
       }
 
-      Card.deleteOne(id)
+      Card.deleteOne({ _id: id })
         .then(() => {
           res.status(200).send({ message: 'Карточка удалена успешно' });
         });
