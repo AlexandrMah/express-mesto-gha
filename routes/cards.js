@@ -33,6 +33,6 @@ router.delete('/:cardId/likes', celebrate({
   }),
 }), dislikeCard);
 
-router.use(errors());
+// router.use(errors());
 
 module.exports = router;
