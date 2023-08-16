@@ -28,12 +28,12 @@ router.post('/signin', celebrate({
   }),
 }), login);
 
-router.use(errors());
-
 router.use(auth);
 
 router.use('/users', userRouter);
 router.use('/cards', cardRouter);
+
+router.use(errors());
 
 router.use(error);
 
