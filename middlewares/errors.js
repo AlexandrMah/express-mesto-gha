@@ -16,6 +16,10 @@ const error = (err, req, res, next) => {
     res.status(404).send({ message: 'Нет такого id' });
   }
 
+  if (err === 'Not Fount') {
+    res.status(404).send({ message: 'Нет такого адреса' });
+  }
+
   if (err === 409) {
     res.status(409).send({ message: 'Такая почта уже есть' });
   }
