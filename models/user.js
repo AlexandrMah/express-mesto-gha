@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
     },
     required: [true, 'Поле "email" должно быть заполнено'],
     unique: true,
+    unknown: true,
   },
   password: {
     type: String,
