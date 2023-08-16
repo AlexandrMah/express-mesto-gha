@@ -8,6 +8,10 @@ const error = (err, req, res, next) => {
     res.status(401).send({ message: 'Неправильные почта или пароль' });
   }
 
+  if (err === 'Unauthorized') {
+    res.status(401).send({ message: 'Необходима авторизация' });
+  }
+
   if (err === 403) {
     res.status(403).send({ message: 'Недостаточно прав для удаления этой карточки' });
   }
