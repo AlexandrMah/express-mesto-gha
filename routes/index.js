@@ -35,10 +35,10 @@ router.use('/cards', cardRouter);
 
 router.use(errors());
 
-router.use(error);
+router.use((req, res) => {
+  res.status(404).send({ message: `Ресурс по адресу ${req.path} не найден` });
+});
 
-// router.use((req, res) => {
-//   res.status(404).send({ message: `Ресурс по адресу ${req.path} не найден` });
-// });
+router.use(error);
 
 module.exports = router;
