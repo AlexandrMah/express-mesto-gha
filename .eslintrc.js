@@ -7,6 +7,7 @@ module.exports = {
     'airbnb-base',
   ],
   rules: {
+    'no-console': 'on',
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
   overrides: [
