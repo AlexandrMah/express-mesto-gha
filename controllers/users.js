@@ -34,13 +34,6 @@ const createUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    // const newEmail = await User.findOne({ email: email });
-    // if (newEmail) {
-    //   const error = 409;
-    //   next(error);
-    //   return;
-    // }
-
     const hash = await bcrypt.hash(password, 10);
 
     const user = await User.create({ email, ...req.body, password: hash });
