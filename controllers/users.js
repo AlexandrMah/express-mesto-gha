@@ -21,7 +21,7 @@ function getUser(req, res, next) {
         next(error);
         return;
       }
-      if (err.kind === 'Bad_Request') {
+      if (err.message === 'Bad_Request') {
         const error = 400;
         next(error);
         return;
