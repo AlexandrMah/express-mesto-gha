@@ -53,6 +53,12 @@ const createUser = async (req, res, next) => {
       next(error);
       return;
     }
+
+    if (err.code === 11000){
+      const error = 409;
+      next(error);
+      return;
+    }
     next(err);
   }
 };
