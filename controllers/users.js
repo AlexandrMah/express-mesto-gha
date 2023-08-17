@@ -125,6 +125,7 @@ const login = async (req, res, next) => {
     const token = JWT.sign(payload, 'some-secret-key', { expiresIn: '7d' });
 
     res.cookie('JWT', token);
+    res.status(200).send('Вы авторизовались');
   } catch (err) {
     console.log(err.name);
     if (err.name === 'Bad_Request') {
