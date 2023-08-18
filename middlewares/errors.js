@@ -1,5 +1,5 @@
 const error = (err, req, res, next) => {
-  console.log(err);
+
   if (err === 400) {
     res.status(400).send({ message: 'Введены некорректные данные' });
   }

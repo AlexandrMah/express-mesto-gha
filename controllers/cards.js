@@ -15,6 +15,7 @@ function createCard(req, res, next) {
       if (err.name === 'ValidationError') {
         const error = 400;
         next(error);
+        return;
       }
       next(err);
     });
