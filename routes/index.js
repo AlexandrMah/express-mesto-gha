@@ -35,7 +35,6 @@ router.use('/users', userRouter);
 router.use('/cards', cardRouter);
 
 router.use((req, res, next) => {
-  // const err = 'Not Fount';
   next(new NotFountError('Нет такого адреса'))
 });
 
