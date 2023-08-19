@@ -27,17 +27,11 @@ function deleteCard(req, res, next) {
   Card.findById(id)
     .then((card) => {
       if (!card) {
-        // const error = 404;
-        // const err = new NotFount('Нет такого id');
-        // err.statusCode = 404;
         next(new NotFountError('Нет такого id'));
         return;
       }
 
       if (userId !== card.owner.toString()) {
-        // const error = 403;
-        // const err = new Forbidden('Недостаточно прав для удаления этой карточки');
-        // err.statusCode = 403;
         next(new ForbiddenError('Недостаточно прав для удаления этой карточки'));
         return;
       }
@@ -57,7 +51,6 @@ function likeCard(req, res, next) {
     { new: true },
   ).then((card) => {
     if (!card) {
-      // const error = 404;
       next(new NotFountError('Нет такого id'));
       return;
     }
@@ -65,7 +58,6 @@ function likeCard(req, res, next) {
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        // const error = 400;
         next(new BadRequestError('Введены некорректные данные'));
         return;
       }
@@ -80,7 +72,6 @@ function dislikeCard(req, res, next) {
     { new: true },
   ).then((user) => {
     if (!user) {
-      // const error = 404;
       next(new NotFountError('Нет такого id'));
       return;
     }
@@ -88,7 +79,6 @@ function dislikeCard(req, res, next) {
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        // const error = 400;
         next(new BadRequestError('Введены некорректные данные'));
         return;
       }
