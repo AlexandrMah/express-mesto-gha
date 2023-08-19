@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const User = require('../models/user');
+const { BadRequestError, NotFountError, ConflictError } = require('../utils/constants');
 
 function getUsers(req, res, next) {
   return User.find({})
@@ -17,13 +18,13 @@ function getUser(req, res, next) {
     })
     .catch((err) => {
       if (err.message === 'NOT_FOUND') {
-        const error = 404;
-        next(error);
+        // const error = 404;
+        next(new NotFountError('Нет такого id'));
         return;
       }
       if (err.name === 'Bad_Request') {
-        const error = 400;
-        next(error);
+        // const error = 400;
+        next(new BadRequestError('Введены некорректные данные'));
         return;
       }
       next(err);
@@ -48,8 +49,8 @@ const createUser = async (req, res, next) => {
     }
 
     if (err.code === 11000){
-      const error = 409;
-      next(error);
+      // const error = 409;
+      next(new ConflictError('Такая почта уже есть'));
       return;
     }
     next(err);

@@ -1,30 +1,32 @@
+const { BadRequestError, NotFountError, ConflictError } = require('../utils/constants');
+
 const error = (err, req, res, next) => {
-  res.status(err.statusCode).json({ error: err.message });
-  /*if (err instanceof Bad_request) {
+  console.log('ошибка: ',err);
+  if (err instanceof BadRequestError) {
     res.status(err.statusCode).json({ error: err.message });
   }
 
-  if (err instanceof 401) {
-    res.status(401).json({ error: err.message });
-  }
+  // if (err instanceof 401) {
+  //   res.status(401).json({ error: err.message });
+  // }
 
-  if (err instanceof 'Unauthorized') {
-    res.status(401).json({ error: err.message });
-  }
+  // if (err instanceof 'Unauthorized') {
+  //   res.status(401).json({ error: err.message });
+  // }
 
-  if (err instanceof Forbidden) {
-    res.status(err.statusCode).json({ error: err.message });
-  }
+  // if (err instanceof Forbidden) {
+  //   res.status(err.statusCode).json({ error: err.message });
+  // }
 
   // if (err instanceof 404) {
   //   res.status(404).json({ error: err.message });
   // }
 
-  if (err instanceof NotFount) {
+  if (err instanceof NotFountError) {
     res.status(err.statusCode).json({ error: err.message });
   }
 
-  if (err instanceof 409) {
+  if (err instanceof ConflictError) {
     res.status(409).json({ error: err.message });
   }
 
@@ -56,7 +58,7 @@ const error = (err, req, res, next) => {
   //   res.status(409).send({ message: 'Такая почта уже есть' });
   // }
 
-  res.status(500).send({ message: 'Произошла ошибка' });*/
+  res.status(500).send({ message: 'Произошла ошибка' });
 
   next();
 };
