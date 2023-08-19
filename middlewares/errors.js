@@ -1,5 +1,6 @@
 const error = (err, req, res, next) => {
-  if (err instanceof Bad_request) {
+  res.status(err.statusCode).json({ error: err.message });
+  /*if (err instanceof Bad_request) {
     res.status(err.statusCode).json({ error: err.message });
   }
 
@@ -55,7 +56,7 @@ const error = (err, req, res, next) => {
   //   res.status(409).send({ message: 'Такая почта уже есть' });
   // }
 
-  res.status(500).send({ message: 'Произошла ошибка' });
+  res.status(500).send({ message: 'Произошла ошибка' });*/
 
   next();
 };
