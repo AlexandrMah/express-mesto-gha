@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const { BadRequestError, ForbiddenError, NotFountError } = require('../utils/constants');
 
 function getCards(req, res, next) {
   return Card.find({})
@@ -13,12 +14,7 @@ function createCard(req, res, next) {
   })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        // const error = 400;
-        // next(error);
-        //./next (new Bad_request('Введены некорректные данные'))
-        const err = new Bad_request('Введены некорректные данные');
-        err.statusCode = 400;
-        next(err);
+        next(new BadRequestError('Введены некорректные данные'));
         return;
       }
       next(err);
@@ -32,17 +28,17 @@ function deleteCard(req, res, next) {
     .then((card) => {
       if (!card) {
         // const error = 404;
-        const err = new NotFount('Нет такого id');
-        err.statusCode = 404;
-        next(err);
+        // const err = new NotFount('Нет такого id');
+        // err.statusCode = 404;
+        next(new NotFountError('Нет такого id'));
         return;
       }
 
       if (userId !== card.owner.toString()) {
         // const error = 403;
-        const err = new Forbidden('Недостаточно прав для удаления этой карточки');
-        err.statusCode = 403;
-        next(err);
+        // const err = new Forbidden('Недостаточно прав для удаления этой карточки');
+        // err.statusCode = 403;
+        next(new ForbiddenError('Недостаточно прав для удаления этой карточки'));
         return;
       }
 
@@ -61,16 +57,16 @@ function likeCard(req, res, next) {
     { new: true },
   ).then((card) => {
     if (!card) {
-      const error = 404;
-      next(error);
+      // const error = 404;
+      next(new NotFountError('Нет такого id'));
       return;
     }
     res.status(200).send({ message: 'Лайк поставлен успешно' });
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        const error = 400;
-        next(error);
+        // const error = 400;
+        next(new BadRequestError('Введены некорректные данные'));
         return;
       }
       next(err);
@@ -84,16 +80,16 @@ function dislikeCard(req, res, next) {
     { new: true },
   ).then((user) => {
     if (!user) {
-      const error = 404;
-      next(error);
+      // const error = 404;
+      next(new NotFountError('Нет такого id'));
       return;
     }
     res.status(200).send({ message: 'Лайк снаят успешно' });
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        const error = 400;
-        next(error);
+        // const error = 400;
+        next(new BadRequestError('Введены некорректные данные'));
         return;
       }
       next(err);
