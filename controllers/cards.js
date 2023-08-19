@@ -15,7 +15,10 @@ function createCard(req, res, next) {
       if (err.name === 'ValidationError') {
         // const error = 400;
         // next(error);
-        next (new Bad_request('Введены некорректные данные'))
+        //./next (new Bad_request('Введены некорректные данные'))
+        const error = new Bad_request('Введены некорректные данные');
+        err.statusCode = 400;
+        next(err);
         return;
       }
       next(err);

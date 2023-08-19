@@ -1,6 +1,6 @@
 const error = (err, req, res, next) => {
   if (err instanceof Bad_request) {
-    res.status(400).json({ error: err.message });
+    res.status(err.statusCode).json({ error: err.message });
   }
 
   if (err instanceof 401) {
