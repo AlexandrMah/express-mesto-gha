@@ -11,16 +11,16 @@ const error = (err, req, res, next) => {
     res.status(401).json({ error: err.message });
   }
 
-  if (err instanceof 403) {
-    res.status(403).json({ error: err.message });
+  if (err instanceof Forbidden) {
+    res.status(err.statusCode).json({ error: err.message });
   }
 
-  if (err instanceof 404) {
-    res.status(404).json({ error: err.message });
-  }
+  // if (err instanceof 404) {
+  //   res.status(404).json({ error: err.message });
+  // }
 
-  if (err instanceof 'Not Fount') {
-    res.status(404).json({ error: err.message });
+  if (err instanceof NotFount) {
+    res.status(err.statusCode).json({ error: err.message });
   }
 
   if (err instanceof 409) {

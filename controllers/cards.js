@@ -17,8 +17,8 @@ function createCard(req, res, next) {
         // next(error);
         //./next (new Bad_request('Введены некорректные данные'))
         const error = new Bad_request('Введены некорректные данные');
-        err.statusCode = 400;
-        next(err);
+        error.statusCode = 400;
+        next(error);
         return;
       }
       next(err);
@@ -31,13 +31,17 @@ function deleteCard(req, res, next) {
   Card.findById(id)
     .then((card) => {
       if (!card) {
-        const error = 404;
+        // const error = 404;
+        const error = new NotFount('Нет такого id');
+        error.statusCode = 404;
         next(error);
         return;
       }
 
       if (userId !== card.owner.toString()) {
-        const error = 403;
+        // const error = 403;
+        const error = new Forbidden('Недостаточно прав для удаления этой карточки');
+        error.statusCode = 403;
         next(error);
         return;
       }
