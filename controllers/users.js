@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const User = require('../models/user');
-const { BadRequestError, NotFountError, ConflictError } = require('../utils/constants');
+const { BadRequestError, UnauthorizedError, NotFountError, ConflictError } = require('../utils/constants');
 
 function getUsers(req, res, next) {
   return User.find({})
@@ -18,12 +18,10 @@ function getUser(req, res, next) {
     })
     .catch((err) => {
       if (err.message === 'NOT_FOUND') {
-        // const error = 404;
         next(new NotFountError('Нет такого id'));
         return;
       }
       if (err.name === 'Bad_Request') {
-        // const error = 400;
         next(new BadRequestError('Введены некорректные данные'));
         return;
       }
@@ -43,13 +41,11 @@ const createUser = async (req, res, next) => {
     });
   } catch (err) {
     if (err.name === 'Bad_Request') {
-      const error = 400;
-      next(error);
+      next(new BadRequestError('Введены некорректные данные'));
       return;
     }
 
     if (err.code === 11000){
-      // const error = 409;
       next(new ConflictError('Такая почта уже есть'));
       return;
     }
@@ -67,13 +63,11 @@ function changeProfile(req, res, next) {
     })
     .catch((err) => {
       if (err.name === 'Bad_Request') {
-        const error = 400;
-        next(error);
+        next(new BadRequestError('Введены некорректные данные'));
         return;
       }
       if (err.massage === 'NOT_FOUND') {
-        const error = 404;
-        next(error);
+        next(new NotFountError('Нет такого адреса'));
         return;
       }
       next(err);
@@ -90,13 +84,11 @@ function changeAvatar(req, res, next) {
     })
     .catch((err) => {
       if (err.name === 'Bad_Request') {
-        const error = 400;
-        next(error);
+        next(new BadRequestError('Введены некорректные данные'));
         return;
       }
       if (err.massage === 'NOT_FOUND') {
-        const error = 404;
-        next(error);
+        next(new NotFountError('Нет такого адреса'));
         return;
       }
       next(err);
@@ -109,15 +101,13 @@ const login = async (req, res, next) => {
 
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      const error = 401;
-      next(error);
+      next(new UnauthorizedError('Неправильные почта или пароль'));
       return;
     }
 
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
-      const error = 401;
-      next(error);
+      next(new UnauthorizedError('Неправильные почта или пароль'));
       return;
     }
 
@@ -130,8 +120,7 @@ const login = async (req, res, next) => {
   } catch (err) {
     console.log(err.name);
     if (err.name === 'Bad_Request') {
-      const error = 400;
-      next(error);
+      next(new BadRequestError('Введены некорректные данные'));
       return;
     }
     next(err);
@@ -146,8 +135,7 @@ const userInfo = (req, res, next) => {
     })
     .catch((err) => {
       if (err.message === 'NOT_FOUND') {
-        const error = 404;
-        next(error);
+        next(new NotFountError('Нет такого адреса'));
         return;
       }
       next(err);
