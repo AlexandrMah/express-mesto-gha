@@ -1,5 +1,5 @@
 const Card = require('../models/card');
-const { BadRequestError, ForbiddenError, NotFountError } = require('../utils/constants');
+const { BadRequestError, ForbiddenError, NotFoundError } = require('../utils/constants');
 
 function getCards(req, res, next) {
   return Card.find({})
@@ -27,7 +27,7 @@ function deleteCard(req, res, next) {
   Card.findById(id)
     .then((card) => {
       if (!card) {
-        next(new NotFountError('Нет такого id'));
+        next(new NotFoundError('Нет такого id'));
         return;
       }
 
@@ -51,7 +51,7 @@ function likeCard(req, res, next) {
     { new: true },
   ).then((card) => {
     if (!card) {
-      next(new NotFountError('Нет такого id'));
+      next(new NotFoundError('Нет такого id'));
       return;
     }
     res.status(200).send({ message: 'Лайк поставлен успешно' });
@@ -72,7 +72,7 @@ function dislikeCard(req, res, next) {
     { new: true },
   ).then((user) => {
     if (!user) {
-      next(new NotFountError('Нет такого id'));
+      next(new NotFoundError('Нет такого id'));
       return;
     }
     res.status(200).send({ message: 'Лайк снаят успешно' });

@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const User = require('../models/user');
-const { BadRequestError, UnauthorizedError, NotFountError, ConflictError } = require('../utils/constants');
+const { BadRequestError, UnauthorizedError, NotFoundError, ConflictError } = require('../utils/constants');
 
 function getUsers(req, res, next) {
   return User.find({})
@@ -17,8 +17,8 @@ function getUser(req, res, next) {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.message === 'NOT_FOUND') {
-        next(new NotFountError('Нет такого id'));
+      if (err.message === 'DocumentNotFoundError') {
+        next(new NotFoundError('Нет такого id'));
         return;
       }
       if (err.name === 'Bad_Request') {
@@ -67,7 +67,7 @@ function changeProfile(req, res, next) {
         return;
       }
       if (err.massage === 'NOT_FOUND') {
-        next(new NotFountError('Нет такого адреса'));
+        next(new NotFoundError('Нет такого адреса'));
         return;
       }
       next(err);
@@ -88,7 +88,7 @@ function changeAvatar(req, res, next) {
         return;
       }
       if (err.massage === 'NOT_FOUND') {
-        next(new NotFountError('Нет такого адреса'));
+        next(new NotFoundError('Нет такого адреса'));
         return;
       }
       next(err);
@@ -135,7 +135,7 @@ const userInfo = (req, res, next) => {
     })
     .catch((err) => {
       if (err.message === 'NOT_FOUND') {
-        next(new NotFountError('Нет такого адреса'));
+        next(new NotFoundError('Нет такого адреса'));
         return;
       }
       next(err);

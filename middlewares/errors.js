@@ -1,4 +1,4 @@
-const { BadRequestError, UnauthorizedError, ForbiddenError, NotFountError, ConflictError } = require('../utils/constants');
+const { BadRequestError, UnauthorizedError, ForbiddenError, NotFoundError, ConflictError } = require('../utils/constants');
 
 const error = (err, req, res, next) => {
   console.log('ошибка: ',err);
@@ -14,7 +14,7 @@ const error = (err, req, res, next) => {
     res.status(err.statusCode).json({ message: err.message });
   }
 
-  if (err instanceof NotFountError) {
+  if (err instanceof NotFoundError) {
     res.status(err.statusCode).json({ message: err.message });
   }
 
