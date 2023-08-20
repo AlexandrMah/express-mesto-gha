@@ -62,7 +62,7 @@ function changeProfile(req, res, next) {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'Bad_Request') {
+      if (err.name === 'CastError') {
         next(new BadRequestError('Введены некорректные данные'));
         return;
       }
@@ -83,7 +83,7 @@ function changeAvatar(req, res, next) {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'Bad_Request') {
+      if (err.name === 'CastError') {
         next(new BadRequestError('Введены некорректные данные'));
         return;
       }
@@ -118,8 +118,7 @@ const login = async (req, res, next) => {
     res.cookie('JWT', token);
     res.status(200).json('Вы авторизовались');
   } catch (err) {
-    console.log(err.name);
-    if (err.name === 'Bad_Request') {
+    if (err.name === 'ValidationError') {
       next(new BadRequestError('Введены некорректные данные'));
       return;
     }
