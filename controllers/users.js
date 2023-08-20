@@ -40,7 +40,7 @@ const createUser = async (req, res, next) => {
       _id: user._id, name: user.name, about: user.about, avatar: user.avatar, email: user.email,
     });
   } catch (err) {
-    if (err.name === 'Bad_Request') {
+    if (err.name === 'ValidationError') {
       next(new BadRequestError('Введены некорректные данные'));
       return;
     }
