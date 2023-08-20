@@ -134,7 +134,7 @@ const userInfo = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.message === 'NOT_FOUND') {
+      if (err.message === 'DocumentNotFoundError') {
         next(new NotFoundError('Нет такого адреса'));
         return;
       }
