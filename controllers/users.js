@@ -66,7 +66,7 @@ function changeProfile(req, res, next) {
         next(new BadRequestError('Введены некорректные данные'));
         return;
       }
-      if (err.massage === 'NOT_FOUND') {
+      if (err.massage === 'DocumentNotFoundError') {
         next(new NotFoundError('Нет такого адреса'));
         return;
       }
