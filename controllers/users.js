@@ -12,7 +12,7 @@ function getUsers(req, res, next) {
 function getUser(req, res, next) {
   const id = req.params.userId;
   return User.findById(id)
-    //.orFail(new Error('DocumentNotFoundError'))
+    .orFail(new Error('DocumentNotFoundError'))
     .then((user) => {
       res.status(200).send(user);
     })
@@ -57,7 +57,7 @@ function changeProfile(req, res, next) {
   const id = req.user._id;
   const { name, about } = req.body;
   return User.findByIdAndUpdate(id, { name, about }, { new: true, runValidators: true })
-    .orFail(new Error('NOT_FOUND'))
+    .orFail(new Error('DocumentNotFoundError'))
     .then((user) => {
       res.status(200).send(user);
     })
@@ -78,7 +78,7 @@ function changeAvatar(req, res, next) {
   const id = req.user._id;
   const { avatar } = req.body;
   return User.findByIdAndUpdate(id, { avatar }, { new: true, runValidators: true })
-    .orFail(new Error('NOT_FOUND'))
+    .orFail(new Error('DocumentNotFoundError'))
     .then((user) => {
       res.status(200).send(user);
     })
@@ -87,7 +87,7 @@ function changeAvatar(req, res, next) {
         next(new BadRequestError('Введены некорректные данные'));
         return;
       }
-      if (err.massage === 'NOT_FOUND') {
+      if (err.massage === 'DocumentNotFoundError') {
         next(new NotFoundError('Нет такого адреса'));
         return;
       }
@@ -129,7 +129,7 @@ const login = async (req, res, next) => {
 
 const userInfo = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(new Error('NOT_FOUND'))
+    .orFail(new Error('DocumentNotFoundError'))
     .then((user) => {
       res.status(200).send(user);
     })
