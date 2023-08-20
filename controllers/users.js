@@ -12,7 +12,7 @@ function getUsers(req, res, next) {
 function getUser(req, res, next) {
   const id = req.params.userId;
   return User.findById(id)
-    .orFail(new Error('DocumentNotFoundError'))
+    //.orFail(new Error('DocumentNotFoundError'))
     .then((user) => {
       res.status(200).send(user);
     })
