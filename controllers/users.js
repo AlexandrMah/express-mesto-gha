@@ -21,7 +21,7 @@ function getUser(req, res, next) {
         next(new NotFoundError('Нет такого id'));
         return;
       }
-      if (err.name === 'Bad_Request') {
+      if (err.name === 'CastError') {
         next(new BadRequestError('Введены некорректные данные'));
         return;
       }
