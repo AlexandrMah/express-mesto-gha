@@ -62,10 +62,6 @@ function changeProfile(req, res, next) {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Введены некорректные данные'));
-        return;
-      }
       if (err.massage === 'DocumentNotFoundError') {
         next(new NotFoundError('Нет такого адреса'));
         return;
@@ -83,10 +79,6 @@ function changeAvatar(req, res, next) {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Введены некорректные данные'));
-        return;
-      }
       if (err.massage === 'DocumentNotFoundError') {
         next(new NotFoundError('Нет такого адреса'));
         return;
